@@ -1,0 +1,28 @@
+--- git/generator/CMakeLists.txt~org	2012-10-05 22:57:21.963589911 -0400
++++ git/generator/CMakeLists.txt	2012-10-05 22:57:49.423565006 -0400
+@@ -2,11 +2,11 @@
+ 
+ set(shiboken_SRC
+ generator.cpp
+-shiboken/cppgenerator.cpp
+-shiboken/headergenerator.cpp
+-shiboken/overloaddata.cpp
+-shiboken/shibokengenerator.cpp
+-shiboken/shibokennormalize.cpp
++shiboken-src/cppgenerator.cpp
++shiboken-src/headergenerator.cpp
++shiboken-src/overloaddata.cpp
++shiboken-src/shibokengenerator.cpp
++shiboken-src/shibokennormalize.cpp
+ main.cpp
+ )
+ 
+@@ -15,7 +15,7 @@
+     add_definitions(-DDOCSTRINGS_ENABLED)
+ endif()
+ 
+-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/shiboken
++include_directories(${CMAKE_CURRENT_SOURCE_DIR}/shiboken-src
+                     ${CMAKE_CURRENT_SOURCE_DIR}/qtdoc
+                     ${CMAKE_CURRENT_SOURCE_DIR}
+                     ${CMAKE_CURRENT_BINARY_DIR}
