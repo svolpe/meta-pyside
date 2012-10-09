@@ -1,0 +1,53 @@
+--- git/generator/CMakeLists.txt~org	2012-10-07 09:44:43.711082977 -0400
++++ git/generator/CMakeLists.txt	2012-10-07 09:44:51.901107292 -0400
+@@ -1,21 +1,21 @@
+-project(shibokengenerator)
++project(shibokengenerator)
+ 
+-set(shiboken_SRC
++set(shibokencross_SRC
+ generator.cpp
+-shiboken/cppgenerator.cpp
+-shiboken/headergenerator.cpp
+-shiboken/overloaddata.cpp
+-shiboken/shibokengenerator.cpp
+-shiboken/shibokennormalize.cpp
++shiboken-src/cppgenerator.cpp
++shiboken-src/headergenerator.cpp
++shiboken-src/overloaddata.cpp
++shiboken-src/shibokengenerator.cpp
++shiboken-src/shibokennormalize.cpp
+ main.cpp
+ )
+ 
+ if (NOT DISABLE_DOCSTRINGS)
+-    set(shiboken_SRC ${shiboken_SRC} qtdoc/qtdocgenerator.cpp)
++    set(shibokencross_SRC ${shibokencross_SRC} qtdoc/qtdocgenerator.cpp)
+     add_definitions(-DDOCSTRINGS_ENABLED)
+ endif()
+ 
+-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/shiboken
++include_directories(${CMAKE_CURRENT_SOURCE_DIR}/shiboken-src
+                     ${CMAKE_CURRENT_SOURCE_DIR}/qtdoc
+                     ${CMAKE_CURRENT_SOURCE_DIR}
+                     ${CMAKE_CURRENT_BINARY_DIR}
+@@ -24,14 +24,14 @@
+                     ${QT_QTCORE_INCLUDE_DIR}
+                     ${QT_QTXML_INCLUDE_DIR})
+ 
+-add_executable(shiboken ${shiboken_SRC})
+-add_dependencies(shiboken apiextractor)
+-set_target_properties(shiboken PROPERTIES OUTPUT_NAME shiboken${shiboken_SUFFIX})
+-target_link_libraries(shiboken
++add_executable(shibokencross ${shibokencross_SRC})
++add_dependencies(shibokencross apiextractor)
++set_target_properties(shibokencross PROPERTIES OUTPUT_NAME shibokencross${shibokencross_SUFFIX})
++target_link_libraries(shibokencross
+                       apiextractor
+                       ${QT_QTCORE_LIBRARY}
+                       ${QT_QTXML_LIBRARY})
+ 
+ configure_file(shibokenconfig.h.in "${CMAKE_CURRENT_BINARY_DIR}/shibokenconfig.h" @ONLY)
+ 
+-install(TARGETS shiboken DESTINATION bin)
++install(TARGETS shibokencross DESTINATION bin)
