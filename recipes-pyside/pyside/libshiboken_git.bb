@@ -11,8 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=34337af480a8c452bfafe22a78fa20cb"
 SRC_URI = "git://gitorious.org/pyside/shiboken.git;protocol=git;tag=eb293c2839cfbc726f0e085e1435c94b6f6561f9 \
 			  file://MacroPushRequiredVars.cmake \
 			  file://FindQt4.cmake \
-			  file://fix-shiboken-cmake-config.patch \
-			  file://generator-rename-shiboken-dir.patch \
+			  file://rename-shiboken-pkg.patch \
 			  "
 
 S = "${WORKDIR}/git"
@@ -77,9 +76,16 @@ export BUILD_SYS
 export STAGING_LIBDIR
 export STAGING_INCDIR
 
-do_configure_prepend() {
+addtask do_fix_generator_names after do_patch before do_configure
+
+do_fix_generator_names() {
     mv ${S}/generator/shiboken ${S}/generator/shiboken-src
+    ln -s ${STAGING_BINDIR_NATIVE}/shiboken ${S}/generator/shiboken
 }
+
+FILES_${PN}-gdb += "${libdir}/python2.7/site-packages/.debug/shiboken*"
+FILES_${PN}-dev += "${libdir}/cmake/ ${libdir}/pkgconfig"
+FILES_${PN} += "${libdir}/python2.7/site-packages/shiboken*"
 
 #do_configure_prepend() {
 #   cp ${WORKDIR}/MacroPushRequiredVars.cmake ${S}/cmake/Modules/MacroPushRequiredVars.cmake

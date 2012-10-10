@@ -1,7 +1,16 @@
-diff -Naur pyside-qt4.7+1.0.2-orig/PySide/QtGui/CMakeLists.txt pyside-qt4.7+1.0.2/PySide/QtGui/CMakeLists.txt
---- pyside-qt4.7+1.0.2-orig/PySide/QtGui/CMakeLists.txt	2011-04-28 22:43:01.000000000 +0200
-+++ pyside-qt4.7+1.0.2/PySide/QtGui/CMakeLists.txt	2011-05-03 16:12:39.316884000 +0200
-@@ -90,7 +90,6 @@
+--- git/PySide/QtGui/typesystem_gui_common.xml~org	2012-10-08 20:16:02.221237113 -0400
++++ git/PySide/QtGui/typesystem_gui_common.xml	2012-10-08 20:18:35.842317152 -0400
+@@ -3058,7 +3058,6 @@
+   </object-type>
+   <object-type name="QMouseEvent" copyable= "false" polymorphic-id-expression="%1-&gt;type() == QEvent::MouseButtonDblClick || %1-&gt;type() == QEvent::MouseButtonPress || %1-&gt;type() == QEvent::MouseButtonRelease || %1-&gt;type() == QEvent::MouseMove"/>
+   <object-type name="QPaintEvent" copyable= "false" polymorphic-id-expression="%1-&gt;type() == QEvent::Paint"/>
+-  <object-type name="QAccessibleEvent" polymorphic-id-expression="%1-&gt;type() == QEvent::AccessibilityDescription || %1-&gt;type() == QEvent::AccessibilityHelp"/>
+   <object-type name="QGestureEvent" polymorphic-id-expression="%1-&gt;type() == QEvent::Gesture || %1-&gt;type() == QEvent::GestureOverride" since="4.6">
+     <modify-function signature="activeGestures()const">
+       <modify-argument index="return">
+--- git/PySide/QtGui/CMakeLists.txt~org	2012-10-08 20:16:34.161088857 -0400
++++ git/PySide/QtGui/CMakeLists.txt	2012-10-08 20:16:52.611035588 -0400
+@@ -98,7 +98,6 @@
  ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtGui/qabstracttextdocumentlayout_paintcontext_wrapper.cpp
  ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtGui/qabstracttextdocumentlayout_selection_wrapper.cpp
  ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtGui/qabstracttextdocumentlayout_wrapper.cpp
@@ -9,14 +18,3 @@ diff -Naur pyside-qt4.7+1.0.2-orig/PySide/QtGui/CMakeLists.txt pyside-qt4.7+1.0.
  ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtGui/qactionevent_wrapper.cpp
  ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtGui/qactiongroup_wrapper.cpp
  ${CMAKE_CURRENT_BINARY_DIR}/PySide/QtGui/qaction_wrapper.cpp
-diff -Naur pyside-qt4.7+1.0.2-orig/PySide/QtGui/typesystem_gui_common.xml pyside-qt4.7+1.0.2/PySide/QtGui/typesystem_gui_common.xml
---- pyside-qt4.7+1.0.2-orig/PySide/QtGui/typesystem_gui_common.xml	2011-04-28 22:43:01.000000000 +0200
-+++ pyside-qt4.7+1.0.2/PySide/QtGui/typesystem_gui_common.xml	2011-05-03 16:12:23.926884000 +0200
-@@ -2809,7 +2809,6 @@
-   </object-type>
-   <object-type name="QMouseEvent" copyable= "false" polymorphic-id-expression="%1-&gt;type() == QEvent::MouseButtonDblClick || %1-&gt;type() == QEvent::MouseButtonPress || %1-&gt;type() == QEvent::MouseButtonRelease || %1-&gt;type() == QEvent::MouseMove"/>
-   <object-type name="QPaintEvent" copyable= "false" polymorphic-id-expression="%1-&gt;type() == QEvent::Paint"/>
--  <object-type name="QAccessibleEvent" polymorphic-id-expression="%1-&gt;type() == QEvent::AccessibilityDescription || %1-&gt;type() == QEvent::AccessibilityHelp"/>
-   <object-type name="QGestureEvent" polymorphic-id-expression="%1-&gt;type() == QEvent::Gesture || %1-&gt;type() == QEvent::GestureOverride">
-     <modify-function signature="activeGestures()const">
-       <modify-argument index="return">

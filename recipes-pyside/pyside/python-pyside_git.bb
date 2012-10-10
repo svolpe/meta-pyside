@@ -17,54 +17,48 @@ SRC_URI = "git://gitorious.org/pyside/pyside.git;protocol=git;tag=6df4b307c5aec7
 			  file://support-qws.patch \
 	 			file://MacroPushRequiredVars.cmake \
 				file://FindQt4.cmake \
+	         file://no-accessibility-support.patch \
 "
-# file://MacroPushRequiredVars.cmake \
 
 # NOTE this should be reworked when a x11 version of qt4 is needed
-inherit cmake	
-EXTRA_OECMAKE = " \
-	-DSITE_PACKAGE=${STAGING_LIBDIR}/python2.7/site-packages \
-	-DPYTHON_INCLUDE_DIR:PATH=${STAGING_INCDIR}/python2.7 \
-	-DPYTHON_LIBRARIES:PATH=${STAGING_LIBDIR}/python2.7 \
-   -DQT_LIBRARY_DIR=${STAGING_INCDIR} \
-   -DQT_HEADERS_DIR=${STAGING_INCDIR}/qtopia \
-   -DQT_QTCORE_INCLUDE_DIR=${STAGING_INCDIR}/qtopia/QtCore \
+inherit cmake
+
+PYTHON_DIR="python2.7"
+
+OECMAKE_CXX_FLAGS_append=" -DQ_WS_QWS "
+CXX_DEFINES+=" -DQ_WS_QWS "
+QT_LIBINFIX="E"
+
+export CXX_DEFINES
+
+#linux-arm-gnueabi-g++
+OE_CMAKE_AR = "${STAGING_BINDIR_TOOLCHAIN}/${AR}"
+EXTRA_OECMAKE += " \
+						 -DCMAKE_AR=${OE_CMAKE_AR} \
+   					 -DQT_LIBINFIX=${QT_LIBINFIX} \
+						 -DQT_MKSPECS_DIR=${STAGING_DATADIR}/qtopia/mkspecs/qws/linux-arm-gnueabi-g++/ \
+				       -DQT_INCLUDE_DIR:PATH=${STAGING_INCDIR}/qtopia/ \
+						 -DQT_HEADERS_DIR:PATH=${STAGING_INCDIR}/qtopia \
+						 -DQT_QTCORE_INCLUDE_DIR:PATH=${STAGING_INCDIR}/qtopia/QtCore \
+						 -DQT_QTCORE_LIBRARY:FILE=${STAGING_LIBDIR}/libQtCoreE.so \
+						 -DQT_QTCORE_LIBRARY_RELEASE:FILE=${STAGING_LIBDIR}/libQtCoreE.so \
+   					 -DSITE_PACKAGE=${STAGING_LIBDIR}/python2.7/site-packages \
+   					 -DPYTHON_INCLUDE_DIR:PATH=${STAGING_INCDIR}/python2.7 \
+   					 -DPYTHON_LIBRARIES:PATH=${STAGING_LIBDIR}/python2.7 \
+                   -DQT_HEADERS_DIR=${STAGING_INCDIR}/qtopia \
+						 -DSHIBOKEN_INCLUDE_DIR:PATH=${STAGING_INCDIR}/shiboken \
+						 -DCMAKE_LIBRARY_PATH=${STAGING_LIBDIR} \
 "
-#EXTRA_OECMAKE += " \
-#	-DSITE_PACKAGE=${STAGING_LIBDIR}/python2.7/site-packages \
-#	-DPYTHON_INCLUDE_DIR:PATH=${STAGING_INCDIR}/python2.7 \
-#   -DQT_INCLUDE_DIR:PATH=${OE_QMAKE_INCDIR_QT} \
-#   -DQT_LIBRARY_DIR=${STAGING_TARGET_LIBDIR} \
-#   -DQT_LIBINFIX=${QT_LIBINFIX} \
-#   -DQT_DIR_NAME=${QT_DIR_NAME} \
-#   -DCMAKE_LIBRARY_PATH=${STAGING_TARGET_LIBDIR} \
-#   -DCMAKE_TOOLCHAIN_SYSTEM_ROOT:PATH=${STAGING_DIR_TARGET} \
-#   -DCMAKE_STAGING_DIR_TARGET:PATH=${STAGING_DIR_TARGET} \
-#   -DCMAKE_STAGING_DIR_NATIVE:PATH=${STAGING_DIR_NATIVE} \
-#   -DCMAKE_TOOLCHAIN_SYSTEM_ROOT:PATH=${STAGING_DIR_TARGET} \
-#   -DCMAKE_STAGING_DIR_TARGET:PATH=${STAGING_DIR_TARGET} \
-#   -DQT_INSTALL_LIBS=${OE_QMAKE_LIBDIR_QT} \
-#   -DQT_INCLUDE_DIR=${OE_QMAKE_INCDIR_QT} \
-#   -DQT_QTCORE_INCLUDE_DIR=${OE_QMAKE_INCDIR_QT}/QtCore \
+
+FILES_${PN} =+ " \
+   ${libdir}/${PYTHON_DIR}/site-packages/PySide/*.so \
+   ${libdir}/${PYTHON_DIR}/site-packages/PySide/*.py \
+"
+FILES_${PN}-dbg =+ "${libdir}/${PYTHON_DIR}/site-packages/PySide/.debug"
+#FILES_${PN}-dev =+ " \
+#   ${datadir}/PySide/typesystems \
+#   ${libdir}/cmake \
 #"
-
-#do_generate_toolchain_file_append() {
-#   # even search in shiboken cmake modules path for modules
-#   echo "set( CMAKE_MODULE_PATH ${STAGING_LIBDIR}/cmake/Shiboken-${PV} \${CMAKE_MODULE_PATH} )" >> ${WORKDIR}/toolchain.cmake
-#   echo "set( CMAKE_MODULE_PATH ${S}/cmake/Modules \${CMAKE_MODULE_PATH} )" >> ${WORKDIR}/toolchain.cmake
-#   echo "set( PYTHON_INCLUDE_DIR ${STAGING_INCDIR}/python2.7 )" >> ${WORKDIR}/toolchain.cmake
-#}
-
-#do_configure_prepend() {
-#   mkdir -p ${S}/cmake/Modules
-#   cp ${WORKDIR}/FindQt4.cmake ${S}/cmake/Modules/FindQt4.cmake
-#   cp ${WORKDIR}/MacroPushRequiredVars.cmake ${S}/cmake/Modules/MacroPushRequiredVars.cmake
-#}
-
-#do_configure_prepend() {
-#   mkdir -p ${S}/cmake/Modules
-#   cp ${WORKDIR}/MacroPushRequiredVars.cmake ${S}/cmake/Modules/MacroPushRequiredVars.cmake
-#}
 
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=15a1ca44f90f3ab457d6a4fe7c0f3a19"
