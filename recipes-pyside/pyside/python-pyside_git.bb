@@ -49,16 +49,28 @@ EXTRA_OECMAKE += " \
 						 -DSHIBOKEN_INCLUDE_DIR:PATH=${STAGING_INCDIR}/shiboken \
 						 -DCMAKE_LIBRARY_PATH=${STAGING_LIBDIR} \
 "
+do_configure_append() {
+	#find . -name cmake_install.cmake | xargs sed -i 's:/home/builder/oebuild/oe-core/build/tmp-eglibc/sysroots/beagleboard/usr/lib/python2.7/site-packages/PySide:/usr/lib/python2.7/site-packages/PySide:g'
+	find ${S}/PySide -name cmake_install.cmake | xargs sed -i "s:${STAGING_LIBDIR}/python2.7/site-packages/PySide:${libdir}/${PYTHON_DIR}/site-packages/PySide:g"
+}
+
+#do_install_append() {
+#	install -d ${D}${libdir}/${PYTHON_DIR}/site-packages/PySide/.debug
+#   mv $(find ${PKGD}/home \( -name Qt*.so -o -name phonon.so \)  |grep debug | xargs) ${D}${libdir}/${PYTHON_DIR}/site-packages/PySide/.debug
+#   mv $(find ${PKGD}/home \( -name Qt*.so -o -name phonon.so \)  |grep -v debug | xargs) ${D}${libdir}/${PYTHON_DIR}/site-packages/PySide/
+#	rm -rf  ${PKGD}/home 
+#}
 
 FILES_${PN} =+ " \
    ${libdir}/${PYTHON_DIR}/site-packages/PySide/*.so \
    ${libdir}/${PYTHON_DIR}/site-packages/PySide/*.py \
 "
 FILES_${PN}-dbg =+ "${libdir}/${PYTHON_DIR}/site-packages/PySide/.debug"
-#FILES_${PN}-dev =+ " \
-#   ${datadir}/PySide/typesystems \
-#   ${libdir}/cmake \
-#"
+
+FILES_${PN}-dev =+ " \
+   ${datadir}/PySide/typesystems \
+   ${libdir}/cmake \
+"
 
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=15a1ca44f90f3ab457d6a4fe7c0f3a19"
