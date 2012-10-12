@@ -8,7 +8,10 @@ PR = "r0"
 LICENSE = "GPLv2"
 LIC_FILES_CHKSUM = "file://COPYING;md5=34337af480a8c452bfafe22a78fa20cb"
 
-SRC_URI = "git://gitorious.org/pyside/shiboken.git;protocol=git;tag=eb293c2839cfbc726f0e085e1435c94b6f6561f9"
+SRC_URI = "git://gitorious.org/pyside/shiboken.git;protocol=git;tag=eb293c2839cfbc726f0e085e1435c94b6f6561f9 \
+           file://generator-rename-shiboken-dir.patch \
+"
+
 S = "${WORKDIR}/git"
 
 SRC_URI[md5sum] = "946e8988e5f4c4bd62e774407fa80fee"
@@ -28,6 +31,12 @@ export HOST_SYS
 export BUILD_SYS
 export STAGING_LIBDIR
 export STAGING_INCDIR
+
+addtask do_fix_generator_names after do_patch before do_configure
+
+do_fix_generator_names() {
+    mv ${S}/generator/shiboken ${S}/generator/shiboken-src
+}
 
 #do_configure_append (){
 #	ln -sf 
