@@ -4,7 +4,7 @@ LICENSE = "LGPLv2.1 | GPLv3"
 #LIC_FILES_CHKSUM = "file://LICENSE.LGPL;md5=fbc093901857fcd118f065f900982c24 \
 #                    file://LICENSE.GPL3;md5=babc5b6b77441da277f5c06b2e547720 \
 #                    file://LGPL_EXCEPTION.txt;md5=411080a56ff917a5a1aa08c98acae354"
-DEPENDS = "apiextractor-native generatorrunner-native shiboken-native"
+DEPENDS = "apiextractor-native generatorrunner-native shiboken-native libshiboken"
 RDEPENDS_${pn} = "python-core"
 PROVIDES = "python-pyside"
 INC_PR = "r2"
